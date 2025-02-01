@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import ImageCard from './ImageCard'
+import { usePetContext } from '../context/PetContext'
 
 type Pet = {
   id: string
@@ -11,20 +12,20 @@ type Pet = {
 
 type ImageGalleryProps = {
   pets: Pet[]
-  selectedPets: string[]
-  toggleSelection: (id: string) => void
 }
 
-const ImageGallery: React.FC<ImageGalleryProps> = ({ pets, selectedPets, toggleSelection }) => {
+const ImageGallery: React.FC<ImageGalleryProps> = ({ pets }) => {
+  const { selectedPets } = usePetContext()
+
+  if (!selectedPets) {
+    console.error('PetContext is not available, make sure PetProvider is wrapping the app')
+    return <h1>Error: PetContext is not available</h1>
+  }
+
   return (
     <GalleryContainer>
       {pets.map((pet) => (
-        <ImageCard
-          key={pet.id}
-          pet={pet}
-          isSelected={selectedPets.includes(pet.id)}
-          toggleSelection={toggleSelection}
-        />
+        <ImageCard key={pet.id} pet={pet} />
       ))}
     </GalleryContainer>
   )
@@ -32,7 +33,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ pets, selectedPets, toggleS
 
 export default ImageGallery
 
-// Styled Components
 const GalleryContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

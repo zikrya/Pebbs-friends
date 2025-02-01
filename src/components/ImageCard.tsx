@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { usePetContext } from '../context/PetContext'
 
 type Pet = {
   id: string
@@ -10,11 +11,12 @@ type Pet = {
 
 type ImageCardProps = {
   pet: Pet
-  isSelected: boolean
-  toggleSelection: (id: string) => void
 }
 
-const ImageCard: React.FC<ImageCardProps> = ({ pet, isSelected, toggleSelection }) => {
+const ImageCard: React.FC<ImageCardProps> = ({ pet }) => {
+  const { selectedPets, toggleSelection } = usePetContext()
+  const isSelected = selectedPets.includes(pet.id)
+
   return (
     <Card onClick={() => toggleSelection(pet.id)} selected={isSelected}>
       <Image src={pet.url} alt={pet.title} />
@@ -26,6 +28,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ pet, isSelected, toggleSelection 
         type="checkbox"
         checked={isSelected}
         onChange={() => toggleSelection(pet.id)}
+        onClick={(e) => e.stopPropagation()}
       />
     </Card>
   )

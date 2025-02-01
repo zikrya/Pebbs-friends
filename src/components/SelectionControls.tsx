@@ -1,15 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
+import { usePetContext } from '../context/PetContext'
+import { useFetchPets } from '../hooks/useFetchPets'
 
-type SelectionControlsProps = {
-  selectAll: () => void
-  clearSelection: () => void
-}
+const SelectionControls: React.FC = () => {
+  const { selectAll, clearSelection } = usePetContext()
+  const { pets } = useFetchPets()
 
-const SelectionControls: React.FC<SelectionControlsProps> = ({ selectAll, clearSelection }) => {
   return (
     <ControlsContainer>
-      <ControlButton onClick={selectAll}>Select All</ControlButton>
+      <ControlButton onClick={() => selectAll(pets.map((pet) => pet.id))}>
+        Select All
+      </ControlButton>
       <ControlButton onClick={clearSelection}>Clear Selection</ControlButton>
     </ControlsContainer>
   )

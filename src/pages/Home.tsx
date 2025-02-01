@@ -5,13 +5,14 @@ import SearchBar from '../components/SearchBar'
 import SortButtons from '../components/SortButton'
 import SelectionControls from '../components/SelectionControls'
 import DownloadButton from '../components/DownloadButton'
+import { usePetContext } from '../context/PetContext'
 import styled from 'styled-components'
 
 function Home() {
   const { pets, loading, error } = useFetchPets()
+  const { selectedPets } = usePetContext()
   const [searchTerm, setSearchTerm] = useState('')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
-  const [selectedPets, setSelectedPets] = useState<string[]>([])
 
   const filteredPets = useMemo(() => {
     return pets.filter((pet) =>
@@ -25,20 +26,6 @@ function Home() {
       return sortOrder === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)
     })
   }, [filteredPets, sortOrder])
-
-  const toggleSelection = (id: string) => {
-    setSelectedPets((prev) =>
-      prev.includes(id) ? prev.filter((petId) => petId !== id) : [...prev, id]
-    )
-  }
-
-  const selectAll = () => {
-    setSelectedPets(sortedPets.map((pet) => pet.id))
-  }
-
-  const clearSelection = () => {
-    setSelectedPets([])
-  }
 
   const handleDownload = () => {
     selectedPets.forEach((id) => {
@@ -65,9 +52,9 @@ function Home() {
 
       <SortButtons sortOrder={sortOrder} setSortOrder={setSortOrder} />
 
-      <SelectionControls selectAll={selectAll} clearSelection={clearSelection} />
+      <SelectionControls />
 
-      <ImageGallery pets={sortedPets} selectedPets={selectedPets} toggleSelection={toggleSelection} />
+      <ImageGallery pets={sortedPets} />
 
       <DownloadButton handleDownload={handleDownload} disabled={selectedPets.length === 0} />
     </Container>
@@ -76,6 +63,7 @@ function Home() {
 
 export default Home
 
+// Styled Components
 const Container = styled.div`
   text-align: center;
   padding: 20px;
