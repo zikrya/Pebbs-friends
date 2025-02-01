@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export const useFetchPets = () => {
   const [pets, setPets] = useState<{ id: string; title: string; description: string; url: string }[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const hasFetched = useRef(false)
 
   useEffect(() => {
+    if (hasFetched.current) return
+    hasFetched.current = true
+
     const fetchPets = async () => {
       try {
         const response = await fetch('https://eulerity-hackathon.appspot.com/pets')
