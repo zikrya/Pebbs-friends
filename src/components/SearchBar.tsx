@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 type SearchBarProps = {
@@ -7,19 +7,30 @@ type SearchBarProps = {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, setSearchTerm }) => {
+  const [inputValue, setInputValue] = useState(searchTerm)
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setSearchTerm(inputValue)
+    }, 300)
+
+    return () => clearTimeout(handler)
+  }, [inputValue, setSearchTerm])
+
   return (
     <SearchContainer>
       <SearchInput
         type="text"
-        placeholder="Search pets by name or description..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Search pets..."
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
       />
     </SearchContainer>
   )
 }
 
 export default SearchBar
+
 
 const SearchContainer = styled.div`
   width: 100%;
