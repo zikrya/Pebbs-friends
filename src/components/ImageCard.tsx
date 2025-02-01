@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { usePetContext } from '../context/PetContext'
+import { usePetContext } from '../context/usePetContext'
 import LazyImage from './LazyImage'
 import { ImageCardProps } from '../utils/types'
 import { Card, Info } from '../styles/ImageCardStyles'

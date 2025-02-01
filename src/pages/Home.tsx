@@ -1,6 +1,6 @@
 import { useFetchPets } from '../hooks/useFetchPets'
 import { usePetFilters } from '../hooks/usePetFilter'
-import { usePetContext } from '../context/PetContext'
+import { usePetContext } from '../context/usePetContext'
 import ImageGallery from '../components/ImageGallery'
 import SearchBar from '../components/SearchBar'
 import SortButtons from '../components/SortButton'

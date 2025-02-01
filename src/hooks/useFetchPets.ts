@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Pet } from '../utils/types'
+import { Pet } from '../types'
 
 const CACHE_KEY = 'cachedPets'
 const CACHE_EXPIRY = 60 * 60 * 1000
@@ -21,7 +21,7 @@ export const useFetchPets = () => {
   }
 
   useEffect(() => {
-    if (hasFetched.current || initialPets.length > 0) return
+    if (hasFetched.current || pets.length > 0) return
     hasFetched.current = true
 
     const fetchPets = async () => {

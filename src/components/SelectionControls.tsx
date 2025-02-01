@@ -1,5 +1,5 @@
 import React from 'react'
-import { usePetContext } from '../context/PetContext'
+import { usePetContext } from '../context/usePetContext'
 import { SelectionControlsProps } from '../utils/types'
 import { ControlsContainer, ControlButton } from '../styles/SelectionControlsStyles'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { usePetContext } from '../context/PetContext'
+import { usePetContext } from '../context/usePetContext'
 import { useFetchPets } from '../hooks/useFetchPets'
 import { downloadImage, downloadImagesAsZip } from '../utils/downloadUtils'
 

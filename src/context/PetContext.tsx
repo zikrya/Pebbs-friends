@@ -1,8 +1,8 @@
-import { createContext, useState, useContext, ReactNode } from 'react'
+import { createContext, useState, ReactNode } from 'react'
 import { PetContextType } from '../utils/types'
 
 
-const PetContext = createContext<PetContextType | undefined>(undefined)
+export const PetContext = createContext<PetContextType | undefined>(undefined)
 
 export const PetProvider = ({ children }: { children: ReactNode }) => {
   const [selectedPets, setSelectedPets] = useState<string[]>([])
@@ -21,10 +21,4 @@ export const PetProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </PetContext.Provider>
   )
-}
-
-export const usePetContext = () => {
-  const context = useContext(PetContext)
-  if (!context) throw new Error('usePetContext must be used within a PetProvider')
-  return context
 }
