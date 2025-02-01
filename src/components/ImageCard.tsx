@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo, useCallback } from 'react'
 import styled from 'styled-components'
 import { usePetContext } from '../context/PetContext'
 import LazyImage from './LazyImage'
@@ -14,12 +14,14 @@ type ImageCardProps = {
   pet: Pet
 }
 
-const ImageCard: React.FC<ImageCardProps> = ({ pet }) => {
+const ImageCard: React.FC<ImageCardProps> = memo(({ pet }) => {
   const { selectedPets, toggleSelection } = usePetContext()
   const isSelected = selectedPets.has(pet.id)
 
+  const handleClick = useCallback(() => toggleSelection(pet.id), [pet.id, toggleSelection])
+
   return (
-    <Card onClick={() => toggleSelection(pet.id)} $selected={isSelected}>
+    <Card onClick={handleClick} $selected={isSelected}>
       <LazyImage src={pet.url} alt={pet.title} />
       <Info>
         <h3>{pet.title}</h3>
@@ -27,7 +29,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ pet }) => {
       </Info>
     </Card>
   )
-}
+})
 
 export default ImageCard
 
