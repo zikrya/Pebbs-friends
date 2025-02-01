@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react'
+import React, { createContext, useState, useContext, useCallback, useMemo } from 'react'
 
 type PetContextType = {
   selectedPets: Set<string>
@@ -12,37 +12,26 @@ const PetContext = createContext<PetContextType | undefined>(undefined)
 export const PetProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [selectedPets, setSelectedPets] = useState<Set<string>>(new Set())
 
-  const toggleSelection = (id: string) => {
+  const toggleSelection = useCallback((id: string) => {
     setSelectedPets((prevSelectedPets) => {
       const newSelection = new Set(prevSelectedPets)
-      if (newSelection.has(id)) {
-        newSelection.delete(id)
-      } else {
-        newSelection.add(id)
-      }
+      newSelection.has(id) ? newSelection.delete(id) : newSelection.add(id)
       return newSelection
     })
-  }
+  }, [])
 
-  const selectAll = (ids: string[]) => {
-    setSelectedPets(new Set(ids))
-  }
+  const selectAll = useCallback((ids: string[]) => setSelectedPets(new Set(ids)), [])
+  const clearSelection = useCallback(() => setSelectedPets(new Set()), [])
 
-  const clearSelection = () => {
-    setSelectedPets(new Set())
-  }
+  const contextValue = useMemo(() => ({ selectedPets, toggleSelection, selectAll, clearSelection }), [
+    selectedPets, toggleSelection, selectAll, clearSelection
+  ])
 
-  return (
-    <PetContext.Provider value={{ selectedPets, toggleSelection, selectAll, clearSelection }}>
-      {children}
-    </PetContext.Provider>
-  )
+  return <PetContext.Provider value={contextValue}>{children}</PetContext.Provider>
 }
 
 export const usePetContext = () => {
   const context = useContext(PetContext)
-  if (!context) {
-    throw new Error('usePetContext must be used within a PetProvider')
-  }
+  if (!context) throw new Error('usePetContext must be used within a PetProvider')
   return context
 }
