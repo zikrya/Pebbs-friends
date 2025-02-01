@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { Pet } from '../utils/types'
 
 const CACHE_KEY = 'cachedPets'
 const CACHE_EXPIRY = 60 * 60 * 1000
@@ -6,9 +7,10 @@ const CACHE_EXPIRY = 60 * 60 * 1000
 export const useFetchPets = () => {
   const cachedData = localStorage.getItem(CACHE_KEY)
   const parsedData = cachedData ? JSON.parse(cachedData) : null
-  const initialPets = parsedData && Date.now() - parsedData.timestamp < CACHE_EXPIRY ? parsedData.pets : []
 
-  const [pets, setPets] = useState(initialPets)
+  const initialPets: Pet[] = parsedData && Date.now() - parsedData.timestamp < CACHE_EXPIRY ? parsedData.pets : []
+
+  const [pets, setPets] = useState<Pet[]>(initialPets)
   const [loading, setLoading] = useState(initialPets.length === 0)
   const [error, setError] = useState<string | null>(null)
   const hasFetched = useRef(false)
@@ -19,13 +21,8 @@ export const useFetchPets = () => {
   }
 
   useEffect(() => {
-    if (hasFetched.current) return
+    if (hasFetched.current || initialPets.length > 0) return
     hasFetched.current = true
-
-    if (initialPets.length > 0) {
-      setLoading(false)
-      return
-    }
 
     const fetchPets = async () => {
       try {
@@ -36,9 +33,9 @@ export const useFetchPets = () => {
         })
 
         if (!response.ok) throw new Error('Failed to fetch pets')
-        const data = await response.json()
+        const data: Pet[] = await response.json()
 
-        const petsWithId = data.map((pet: any, index: number) => ({
+        const petsWithId = data.map((pet, index) => ({
           ...pet,
           id: pet.id || `${pet.title}-${index}`
         }))
