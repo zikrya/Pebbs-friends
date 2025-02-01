@@ -31,3 +31,10 @@ export type SortButtonsProps = {
     sortOrder: 'asc' | 'desc'
     setSortOrder: (order: 'asc' | 'desc') => void
   }
+
+export type PetContextType = {
+    selectedPets: Set<string>
+    toggleSelection: (id: string) => void
+    selectAll: (ids: string[]) => void
+    clearSelection: () => void
+  }
