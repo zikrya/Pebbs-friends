@@ -27,20 +27,6 @@ function Home() {
     })
   }, [filteredPets, sortOrder])
 
-  const handleDownload = () => {
-    selectedPets.forEach((id) => {
-      const pet = pets.find((p) => p.id === id)
-      if (pet) {
-        const link = document.createElement('a')
-        link.href = pet.url
-        link.download = `${pet.title}.jpg`
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-      }
-    })
-  }
-
   if (loading) return <h1>Loading...</h1>
   if (error) return <h1>Error: {error}</h1>
 
@@ -56,7 +42,7 @@ function Home() {
 
       <ImageGallery pets={sortedPets} />
 
-      <DownloadButton handleDownload={handleDownload} disabled={selectedPets.length === 0} />
+      <DownloadButton />
     </Container>
   )
 }

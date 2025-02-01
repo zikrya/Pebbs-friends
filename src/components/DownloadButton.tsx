@@ -1,16 +1,29 @@
 import React from 'react'
 import styled from 'styled-components'
+import { usePetContext } from '../context/PetContext'
+import { useFetchPets } from '../hooks/useFetchPets'
+import { downloadImage, downloadImagesAsZip } from '../utils/downloadUtils'
 
-type DownloadButtonProps = {
-  handleDownload: () => void
-  disabled: boolean
-}
+const DownloadButton: React.FC = () => {
+  const { selectedPets } = usePetContext()
+  const { pets } = useFetchPets()
 
-const DownloadButton: React.FC<DownloadButtonProps> = ({ handleDownload, disabled }) => {
+  const selectedImages = pets.filter((pet) => selectedPets.has(pet.id))
+
+
+  const handleDownload = () => {
+    if (selectedImages.length === 1) {
+      const pet = selectedImages[0]
+      downloadImage(pet.url, pet.title)
+    } else {
+      downloadImagesAsZip(selectedImages)
+    }
+  }
+
   return (
     <DownloadContainer>
-      <DownloadBtn onClick={handleDownload} disabled={disabled}>
-        Download Selected
+      <DownloadBtn onClick={handleDownload}>
+        Download
       </DownloadBtn>
     </DownloadContainer>
   )
@@ -28,13 +41,13 @@ const DownloadBtn = styled.button`
   padding: 12px 20px;
   font-size: 16px;
   font-weight: bold;
-  background: ${({ disabled }) => (disabled ? '#ccc' : '#007bff')};
+  background: #007bff;
   color: white;
   border: none;
   border-radius: 8px;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  cursor: pointer;
   transition: background 0.2s ease-in-out;
   &:hover {
-    background: ${({ disabled }) => (disabled ? '#ccc' : '#0056b3')};
+    background: #0056b3;
   }
 `
