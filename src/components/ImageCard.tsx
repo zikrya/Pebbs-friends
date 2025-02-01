@@ -2,17 +2,9 @@ import React, { memo, useCallback } from 'react'
 import styled from 'styled-components'
 import { usePetContext } from '../context/PetContext'
 import LazyImage from './LazyImage'
+import { ImageCardProps } from "../utils/types"
 
-type Pet = {
-  id: string
-  title: string
-  description: string
-  url: string
-}
 
-type ImageCardProps = {
-  pet: Pet
-}
 
 const ImageCard: React.FC<ImageCardProps> = memo(({ pet }) => {
   const { selectedPets, toggleSelection } = usePetContext()

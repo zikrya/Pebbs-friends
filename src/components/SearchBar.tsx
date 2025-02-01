@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import  { SearchBarProps } from "../utils/types"
 
-type SearchBarProps = {
-  searchTerm: string
-  setSearchTerm: (value: string) => void
-}
 
 const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, setSearchTerm }) => {
   const [inputValue, setInputValue] = useState(searchTerm)

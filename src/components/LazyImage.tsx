@@ -1,11 +1,8 @@
 import React from 'react'
 import { useInView } from 'react-intersection-observer'
 import styled from 'styled-components'
+import  { LazyImageProps } from "../utils/types"
 
-type LazyImageProps = {
-  src: string
-  alt: string
-}
 
 const LazyImage: React.FC<LazyImageProps> = ({ src, alt }) => {
   const { ref, inView } = useInView({ triggerOnce: true })

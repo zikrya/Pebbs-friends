@@ -1,17 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import ImageCard from './ImageCard'
+import  { ImageGalleryProps } from "../utils/types"
 
-type Pet = {
-  id: string
-  title: string
-  description: string
-  url: string
-}
-
-type ImageGalleryProps = {
-  pets: Pet[]
-}
 
 const ImageGallery: React.FC<ImageGalleryProps> = ({ pets }) => {
   return (

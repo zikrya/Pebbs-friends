@@ -9,7 +9,7 @@ export const useFetchPets = () => {
   const initialPets = parsedData && Date.now() - parsedData.timestamp < CACHE_EXPIRY ? parsedData.pets : []
 
   const [pets, setPets] = useState(initialPets)
-  const [loading, setLoading] = useState(initialPets.length === 0) //
+  const [loading, setLoading] = useState(initialPets.length === 0)
   const [error, setError] = useState<string | null>(null)
   const hasFetched = useRef(false)
 
