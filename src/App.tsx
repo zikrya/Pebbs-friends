@@ -1,15 +1,15 @@
 
-import './App.css'
+import { Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import About from './pages/About'
 
 function App() {
-
   return (
     <>
-    <p class="text-sm ...">The quick brown fox ...</p>
-<p class="text-base ...">The quick brown fox ...</p>
-<p class="text-lg ...">The quick brown fox ...</p>
-<p class="text-xl ...">The quick brown fox ...</p>
-<p class="text-2xl ...">The quick brown fox ...</p>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
     </>
   )
 }
