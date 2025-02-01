@@ -22,3 +22,12 @@ export type SearchBarProps = {
     searchTerm: string
     setSearchTerm: (value: string) => void
   }
+
+export  type SelectionControlsProps = {
+    pets: Pet[]
+  }
+
+export type SortButtonsProps = {
+    sortOrder: 'asc' | 'desc'
+    setSortOrder: (order: 'asc' | 'desc') => void
+  }

@@ -1,11 +1,11 @@
 import React from 'react'
-import styled from 'styled-components'
 import { usePetContext } from '../context/PetContext'
-import { useFetchPets } from '../hooks/useFetchPets'
+import { SelectionControlsProps } from '../utils/types'
+import { ControlsContainer, ControlButton } from '../styles/SelectionControlsStyles'
 
-const SelectionControls: React.FC = () => {
+
+const SelectionControls: React.FC<SelectionControlsProps> = ({ pets }) => {
   const { selectAll, clearSelection } = usePetContext()
-  const { pets } = useFetchPets()
 
   return (
     <ControlsContainer>
@@ -18,23 +18,3 @@ const SelectionControls: React.FC = () => {
 }
 
 export default SelectionControls
-
-const ControlsContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 16px;
-`
-
-const ControlButton = styled.button`
-  padding: 10px 16px;
-  font-size: 14px;
-  border: none;
-  cursor: pointer;
-  background: #f8f9fa;
-  border-radius: 8px;
-  transition: background 0.2s ease-in-out;
-  &:hover {
-    background: #ddd;
-  }
-`

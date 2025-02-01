@@ -1,10 +1,10 @@
 import React from 'react'
-import styled from 'styled-components'
 import ImageCard from './ImageCard'
-import  { ImageGalleryProps } from "../utils/types"
+import { ImageGalleryProps  } from '../utils/types'
+import { GalleryContainer } from '../styles/ImageGalleryStyles'
 
 
-const ImageGallery: React.FC<ImageGalleryProps> = ({ pets }) => {
+const ImageGallery: React.FC<ImageGalleryProps> = ({ pets = [] }) => {
   return (
     <GalleryContainer>
       {pets.map((pet) => (
@@ -15,10 +15,3 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ pets }) => {
 }
 
 export default ImageGallery
-
-const GalleryContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px;
-  margin-top: 20px;
-`
