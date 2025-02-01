@@ -1,9 +1,13 @@
-import React from 'react'
+import { useFetchPets } from '../hooks/useFetchPets'
 
-const Home = () => {
-  return (
-    <div>Home</div>
-  )
+function Home() {
+  const { pets, loading, error } = useFetchPets()
+
+  console.log('Pets from Hook:', pets)
+  console.log('Loading state:', loading)
+  console.log('Error state:', error)
+
+  return <h1>Home</h1>
 }
 
 export default Home
