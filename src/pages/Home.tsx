@@ -22,7 +22,7 @@ function Home() {
 
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <SortButtons sortOrder={sortOrder} setSortOrder={setSortOrder} />
-      <SelectionControls />
+      <SelectionControls pets={filteredAndSortedPets} />
       <ImageGallery pets={filteredAndSortedPets} />
 
       {selectedPets.size > 0 && <DownloadButton />}
