@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import ImageCard from './ImageCard'
 import { ImageGalleryProps  } from '../utils/types'
 import { GalleryContainer } from '../styles/ImageGalleryStyles'

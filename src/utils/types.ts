@@ -1,3 +1,5 @@
+import { createContext } from "react"
+
 export type Pet = {
     id: string
     title: string
@@ -38,3 +40,5 @@ export type PetContextType = {
     selectAll: (ids: string[]) => void
     clearSelection: () => void
   }
+
+export const PetContext = createContext<PetContextType | undefined>(undefined)

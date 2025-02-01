@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { SortContainer, SortButton } from '../styles/SortButtonsStyles'
 import { SortButtonsProps } from '../utils/types'
 

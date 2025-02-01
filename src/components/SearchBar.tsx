@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { SearchContainer, SearchInput } from '../styles/SearchBarStyles'
 import  { SearchBarProps } from "../utils/types"
 

@@ -1,8 +1,6 @@
-import { createContext, useState, ReactNode } from 'react'
-import { PetContextType } from '../utils/types'
+import {useState, ReactNode } from 'react'
+import { PetContext } from '../utils/types'
 
-
-export const PetContext = createContext<PetContextType | undefined>(undefined)
 
 export const PetProvider = ({ children }: { children: ReactNode }) => {
   const [selectedPets, setSelectedPets] = useState<string[]>([])

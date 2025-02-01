@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { usePetContext } from '../context/usePetContext'
 import LazyImage from './LazyImage'
 import { ImageCardProps } from '../utils/types'

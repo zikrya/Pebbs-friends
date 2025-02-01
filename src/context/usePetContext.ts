@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { PetContext } from './PetContext'
+import { PetContext } from '../utils/types'
 
 export const usePetContext = () => {
   const context = useContext(PetContext)

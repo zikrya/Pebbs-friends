@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Pet } from '../types'
+import { Pet } from '../utils/types'
 
 const CACHE_KEY = 'cachedPets'
 const CACHE_EXPIRY = 60 * 60 * 1000
