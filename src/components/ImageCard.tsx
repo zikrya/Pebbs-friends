@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { usePetContext } from '../context/PetContext'
+import LazyImage from './LazyImage'
 
 type Pet = {
   id: string
@@ -19,17 +20,11 @@ const ImageCard: React.FC<ImageCardProps> = ({ pet }) => {
 
   return (
     <Card onClick={() => toggleSelection(pet.id)} $selected={isSelected}>
-      <Image src={pet.url} alt={pet.title} />
+      <LazyImage src={pet.url} alt={pet.title} />
       <Info>
         <h3>{pet.title}</h3>
         <p>{pet.description}</p>
       </Info>
-      <Checkbox
-        type="checkbox"
-        checked={isSelected}
-        onChange={() => toggleSelection(pet.id)}
-        onClick={(e) => e.stopPropagation()}
-      />
     </Card>
   )
 }
@@ -51,19 +46,7 @@ const Card = styled.div<{ $selected: boolean }>`
   }
 `
 
-const Image = styled.img`
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-`
-
 const Info = styled.div`
   text-align: center;
   margin-top: 8px;
-`
-
-const Checkbox = styled.input`
-  margin-top: 10px;
-  transform: scale(1.2);
 `
