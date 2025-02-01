@@ -1,16 +1,8 @@
 import { useState, useEffect } from 'react'
 
-type Pet = {
-  id: string
-  imageUrl: string
-  title: string
-  description: string
-  createdAt: string
-}
-
-export function useFetchPets() {
-  const [pets, setPets] = useState<Pet[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
+export const useFetchPets = () => {
+  const [pets, setPets] = useState<{ id: string; title: string; description: string; url: string }[]>([])
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -18,13 +10,16 @@ export function useFetchPets() {
       try {
         const response = await fetch('https://eulerity-hackathon.appspot.com/pets')
         if (!response.ok) throw new Error('Failed to fetch pets')
+        const data = await response.json()
 
-        const data: Pet[] = await response.json()
-        console.log('Fetched Pets:', data)
-        setPets(data)
+        const petsWithId = data.map((pet: any, index: number) => ({
+          ...pet,
+          id: pet.id || `${pet.title}-${index}`
+        }))
+
+        setPets(petsWithId)
       } catch (err) {
-        console.error('Error fetching pets:', err)
-        setError((err as Error).message)
+        setError(err instanceof Error ? err.message : 'An error occurred')
       } finally {
         setLoading(false)
       }

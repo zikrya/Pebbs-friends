@@ -15,10 +15,10 @@ type ImageCardProps = {
 
 const ImageCard: React.FC<ImageCardProps> = ({ pet }) => {
   const { selectedPets, toggleSelection } = usePetContext()
-  const isSelected = selectedPets.includes(pet.id)
+  const isSelected = selectedPets.has(pet.id)
 
   return (
-    <Card onClick={() => toggleSelection(pet.id)} selected={isSelected}>
+    <Card onClick={() => toggleSelection(pet.id)} $selected={isSelected}>
       <Image src={pet.url} alt={pet.title} />
       <Info>
         <h3>{pet.title}</h3>
@@ -36,14 +36,14 @@ const ImageCard: React.FC<ImageCardProps> = ({ pet }) => {
 
 export default ImageCard
 
-const Card = styled.div<{ selected: boolean }>`
+const Card = styled.div<{ $selected: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 16px;
-  background: ${({ selected }) => (selected ? '#e3f2fd' : '#fff')};
+  background: ${({ $selected }) => ($selected ? '#e3f2fd' : '#fff')};
   border-radius: 8px;
-  border: 2px solid ${({ selected }) => (selected ? '#007bff' : '#ddd')};
+  border: 2px solid ${({ $selected }) => ($selected ? '#007bff' : '#ddd')};
   transition: all 0.2s ease-in-out;
   cursor: pointer;
   &:hover {

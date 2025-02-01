@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext } from 'react'
 
 type PetContextType = {
-  selectedPets: string[]
+  selectedPets: Set<string>
   toggleSelection: (id: string) => void
   selectAll: (ids: string[]) => void
   clearSelection: () => void
@@ -10,20 +10,26 @@ type PetContextType = {
 const PetContext = createContext<PetContextType | undefined>(undefined)
 
 export const PetProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [selectedPets, setSelectedPets] = useState<string[]>([])
+  const [selectedPets, setSelectedPets] = useState<Set<string>>(new Set())
 
   const toggleSelection = (id: string) => {
-    setSelectedPets((prev) =>
-      prev.includes(id) ? prev.filter((petId) => petId !== id) : [...prev, id]
-    )
+    setSelectedPets((prevSelectedPets) => {
+      const newSelection = new Set(prevSelectedPets)
+      if (newSelection.has(id)) {
+        newSelection.delete(id)
+      } else {
+        newSelection.add(id)
+      }
+      return newSelection
+    })
   }
 
   const selectAll = (ids: string[]) => {
-    setSelectedPets(ids)
+    setSelectedPets(new Set(ids))
   }
 
   const clearSelection = () => {
-    setSelectedPets([])
+    setSelectedPets(new Set())
   }
 
   return (
@@ -35,6 +41,8 @@ export const PetProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
 export const usePetContext = () => {
   const context = useContext(PetContext)
-  if (!context) throw new Error('usePetContext must be used within a PetProvider')
+  if (!context) {
+    throw new Error('usePetContext must be used within a PetProvider')
+  }
   return context
 }

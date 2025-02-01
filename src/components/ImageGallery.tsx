@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import ImageCard from './ImageCard'
-import { usePetContext } from '../context/PetContext'
 
 type Pet = {
   id: string
@@ -15,13 +14,6 @@ type ImageGalleryProps = {
 }
 
 const ImageGallery: React.FC<ImageGalleryProps> = ({ pets }) => {
-  const { selectedPets } = usePetContext()
-
-  if (!selectedPets) {
-    console.error('PetContext is not available, make sure PetProvider is wrapping the app')
-    return <h1>Error: PetContext is not available</h1>
-  }
-
   return (
     <GalleryContainer>
       {pets.map((pet) => (
