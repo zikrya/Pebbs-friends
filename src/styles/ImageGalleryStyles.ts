@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { theme } from "../styles/theme"
+import { motion} from "framer-motion"
 
 export const Wrapper = styled.div`
   width: 100%;
