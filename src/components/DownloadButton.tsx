@@ -1,6 +1,6 @@
-import type * as React from "react"
-import { motion } from "framer-motion"
-import { Download } from "lucide-react"
+import React from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Download } from 'lucide-react'
 import { usePetContext } from "../context/usePetContext"
 import { useFetchPets } from "../hooks/useFetchPets"
 import { downloadImage, downloadImagesAsZip } from "../utils/downloadUtils"
@@ -22,16 +22,30 @@ const DownloadButton: React.FC = () => {
   }
 
   return (
-    <DownloadContainer>
-      <DownloadBtn as={motion.button} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleDownload}>
-        <ButtonIcon>
-          <Download size={20} />
-        </ButtonIcon>
-        <ButtonText>Download {selectedImages.length > 1 ? `(${selectedImages.length})` : ""}</ButtonText>
-      </DownloadBtn>
-    </DownloadContainer>
+    <AnimatePresence>
+      {selectedImages.length > 0 && (
+        <DownloadContainer
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 50 }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        >
+          <DownloadBtn
+            onClick={handleDownload}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ButtonIcon>
+              <Download size={20} />
+            </ButtonIcon>
+            <ButtonText>
+              Download {selectedImages.length > 1 ? `(${selectedImages.length})` : ""}
+            </ButtonText>
+          </DownloadBtn>
+        </DownloadContainer>
+      )}
+    </AnimatePresence>
   )
 }
 
 export default DownloadButton
-
