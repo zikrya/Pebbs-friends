@@ -9,6 +9,7 @@ export type Pet = {
 
 export  type ImageCardProps = {
     pet: Pet
+    view: "grid" | "list"
   }
 
 export type ImageGalleryProps = {

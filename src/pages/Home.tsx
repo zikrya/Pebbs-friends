@@ -1,181 +1,337 @@
-import { motion } from "framer-motion"
+import { useEffect, useRef } from "react"
+import { motion, useAnimation, useInView } from "framer-motion"
 import styled from "styled-components"
-import { useFetchPets } from "../hooks/useFetchPets"
-import { usePetFilters } from "../hooks/usePetFilter"
-import { usePetContext } from "../context/usePetContext"
-import ImageGallery from "../components/ImageGallery"
-import SearchBar from "../components/SearchBar"
-import SortButtons from "../components/SortButton"
-import SelectionControls from "../components/SelectionControls"
-import DownloadButton from "../components/DownloadButton"
 import { theme } from "../styles/theme"
+import { ArrowRight, PawPrintIcon as Paw, Dog } from "lucide-react"
+import { Link } from "react-router-dom"
 
 function Home() {
-  const { pets, loading, error } = useFetchPets()
-  const { selectedPets } = usePetContext()
-  const { searchTerm, setSearchTerm, sortOrder, setSortOrder, filteredAndSortedPets } = usePetFilters(pets)
+  const controls = useAnimation()
+  const ref = useRef(null)
+  const inView = useInView(ref)
 
-  if (loading) return <LoadingContainer>Loading...</LoadingContainer>
-  if (error) return <ErrorContainer>Error: {error}</ErrorContainer>
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible")
+    }
+  }, [controls, inView])
 
   return (
     <Container>
-      <Header>
-        <Title
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          Pebbs
-        </Title>
-
-        <ControlsWrapper
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-
-          <ControlsBar>
-            <SortButtons sortOrder={sortOrder} setSortOrder={setSortOrder} />
-            <SelectionControls pets={filteredAndSortedPets} />
-          </ControlsBar>
-        </ControlsWrapper>
-      </Header>
-
+      <BackgroundAnimation />
       <Content>
-        <GalleryContainer>
-          <ImageGallery pets={filteredAndSortedPets} />
-        </GalleryContainer>
+        <LeftSection>
+          <motion.div
+            ref={ref}
+            initial="hidden"
+            animate={controls}
+            variants={{
+              hidden: { opacity: 0, y: 50 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+            }}
+          >
+            <TitleWrapper>
+              <SubTitle>In loving memory</SubTitle>
+              <Title>
+                <NameWrapper>
+                  <Name>Pebbs</Name>
+                  <NameDecoration />
+                </NameWrapper>
+              </Title>
+            </TitleWrapper>
+            <Description>
+              A digital sanctuary celebrating the joy, love, and unforgettable moments shared with our beloved companion
+            </Description>
+            <CTAButton to="/gallery">
+              <span>Explore Memories</span>
+              <motion.div
+                animate={{
+                  x: [0, 10, 0],
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                }}
+              >
+                <ArrowRight size={24} />
+              </motion.div>
+            </CTAButton>
+          </motion.div>
+        </LeftSection>
 
-        <DownloadButton />
+        <RightSection>
+          <PawPrintTrail />
+          <DogIcon />
+        </RightSection>
       </Content>
     </Container>
   )
 }
 
+const BackgroundAnimation = () => (
+  <BackgroundWrapper>
+    {[...Array(20)].map((_, i) => (
+      <Particle
+        key={i}
+        style={{
+          top: `${Math.random() * 100}%`,
+          left: `${Math.random() * 100}%`,
+          animationDelay: `${Math.random() * 5}s`,
+        }}
+      />
+    ))}
+  </BackgroundWrapper>
+)
+
+const PawPrintTrail = () => (
+  <PawPrintWrapper>
+    {[...Array(5)].map((_, i) => (
+      <motion.div
+        key={i}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: i * 0.2, duration: 0.5 }}
+      >
+        <Paw size={24 + i * 4} />
+      </motion.div>
+    ))}
+  </PawPrintWrapper>
+)
+
+const DogIcon = () => (
+  <IconWrapper>
+    <motion.div
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 1.2, ease: "easeOut" }}
+    >
+      <Dog size={400} strokeWidth={1} />
+    </motion.div>
+    <Blob />
+  </IconWrapper>
+)
+
+const IconWrapper = styled.div`
+  position: relative;
+  color: ${theme.colors.lilacDark};
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const Blob = styled.div`
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: ${theme.colors.lilac};
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.3;
+  animation: pulse 8s ease-in-out infinite;
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1) translate(-50%, -50%);
+    }
+    50% {
+      transform: scale(1.1) translate(-45%, -45%);
+    }
+  }
+
+  @media (max-width: 968px) {
+    width: 400px;
+    height: 400px;
+  }
+`
+
 export default Home
 
 const Container = styled.div`
-  background: linear-gradient(180deg, rgba(246, 245, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  background: ${theme.colors.background};
   position: relative;
-  overflow-x: hidden;
-`
-const Header = styled.header`
-  padding: 40px 20px;
-  position: relative;
+  overflow: hidden;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 40px;
-  background: transparent;
 `
 
-const Title = styled(motion.h1)`
-  font-size: 32px;
-  font-weight: 600;
-  color: ${theme.colors.text};
-  position: relative;
-  margin: 0;
-  letter-spacing: -0.02em;
+const BackgroundWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
 `
 
-const Content = styled.main`
-  flex: 1;
-  padding: 0 20px 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 48px;
-  position: relative;
-  z-index: 1;
+const Particle = styled.div`
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: ${theme.colors.lilac};
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: float 15s infinite ease-in-out;
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(20px, 20px); }
+  }
+`
+
+const Content = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: ${theme.spacing.xxl};
   max-width: 1400px;
   margin: 0 auto;
-  width: 100%;
+  padding: ${theme.spacing.xl};
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: 968px) {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
 `
 
-const ControlsWrapper = styled(motion.div)`
+const LeftSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  max-width: 700px;
-  margin: -20px auto 0;
+  justify-content: center;
+  position: relative;
+`
 
-  @media (max-width: 768px) {
-    gap: 16px;
+const TitleWrapper = styled.div`
+  margin-bottom: ${theme.spacing.xl};
+`
+
+const SubTitle = styled.h2`
+  font-size: ${theme.typography.fontSizes.xl};
+  color: ${theme.colors.lilacDark};
+  margin-bottom: ${theme.spacing.md};
+  font-weight: ${theme.typography.fontWeights.medium};
+  text-transform: uppercase;
+  letter-spacing: 2px;
+`
+
+const Title = styled.h1`
+  font-size: 84px;
+  font-weight: ${theme.typography.fontWeights.bold};
+  line-height: 1.1;
+  color: ${theme.colors.text};
+
+  @media (max-width: 968px) {
+    font-size: 60px;
   }
 `
 
+const NameWrapper = styled.span`
+  display: inline-block;
+  position: relative;
+`
 
+const Name = styled.span`
+  color: ${theme.colors.lilacDark};
+  position: relative;
+  z-index: 1;
+`
 
-const ControlsBar = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 8px 12px;
-  background: rgba(246, 245, 255, 0.5);
-  border-radius: 16px;
-  border: 1px solid rgba(124, 122, 235, 0.08);
+const NameDecoration = styled.div`
+  position: absolute;
+  bottom: 0.1em;
+  left: -0.1em;
+  right: -0.1em;
+  height: 0.3em;
+  background: ${theme.colors.lilac};
+  z-index: 0;
+  transform-origin: left;
+  animation: expand 1.5s ease-out forwards;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 8px;
+  @keyframes expand {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
   }
 `
 
-const GalleryContainer = styled(motion.div)`
-  width: 100%;
-  padding: 0;
-  display: grid;
-  gap: 24px;
-  margin-top: 20px;
-`
-
-const LoadingContainer = styled.div`
-  text-align: center;
-  font-size: ${theme.typography.fontSizes.md};
+const Description = styled.p`
+  font-size: ${theme.typography.fontSizes.xl};
+  line-height: ${theme.typography.lineHeights.relaxed};
   color: ${theme.colors.textSecondary};
-  margin-top: 100px;
-  display: flex;
-  flex-direction: column;
+  margin-bottom: ${theme.spacing.xxl};
+  max-width: 500px;
+
+  @media (max-width: 968px) {
+    margin: 0 auto ${theme.spacing.xxl};
+  }
+`
+
+const CTAButton = styled(Link)`
+  display: inline-flex;
   align-items: center;
   gap: ${theme.spacing.md};
+  padding: ${theme.spacing.lg} ${theme.spacing.xl};
+  background: ${theme.colors.lilacDark};
+  color: white;
+  border-radius: ${theme.borderRadius.full};
+  font-size: ${theme.typography.fontSizes.lg};
+  font-weight: ${theme.typography.fontWeights.semibold};
+  text-decoration: none;
+  transition: ${theme.transitions.default};
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(124, 122, 235, 0.3);
 
-  &::after {
+  &::before {
     content: '';
-    width: 24px;
-    height: 24px;
-    border: 2px solid ${theme.colors.lilacLight};
-    border-top-color: ${theme.colors.lilacDark};
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
   }
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(124, 122, 235, 0.4);
+
+    &::before {
+      transform: translateX(100%);
+    }
+  }
+
+  @media (max-width: 968px) {
+    margin: 0 auto;
   }
 `
 
-const ErrorContainer = styled.div`
-  color: ${theme.colors.text};
-  font-size: ${theme.typography.fontSizes.md};
-  background: rgba(255, 255, 255, 0.8);
-  padding: 24px;
-  border-radius: 16px;
-  backdrop-filter: blur(20px);
-  margin-top: 100px;
-  text-align: center;
-  border: 1px solid rgba(124, 122, 235, 0.1);
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow:
-    0 4px 24px -6px rgba(124, 122, 235, 0.06),
-    0 12px 48px -12px rgba(124, 122, 235, 0.08);
+const RightSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 `
+
+const PawPrintWrapper = styled.div`
+  position: absolute;
+  bottom: 20%;
+  left: 10%;
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing.md};
+  color: ${theme.colors.lilacDark};
+  opacity: 0.6;
+  transform: rotate(-30deg);
+`
+
