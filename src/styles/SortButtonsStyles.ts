@@ -1,22 +1,71 @@
-import styled from 'styled-components'
+// SortButtonsStyles.ts
+import styled, { css } from "styled-components"
+import { theme } from "./theme"
 
 export const SortContainer = styled.div`
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 16px;
+  gap: ${theme.spacing.xs};
 `
 
-export const SortButton = styled.button<{ active: boolean }>`
-  padding: 10px 16px;
-  font-size: 14px;
-  border: none;
+export const ButtonIcon = styled.span`
+  display: flex;
+  align-items: center;
+  margin-right: ${theme.spacing.xs};
+  transition: ${theme.transitions.default};
+`
+
+export const SortButton = styled.button<{ $active?: boolean }>`
+  display: flex;
+  align-items: center;
+  padding: ${theme.spacing.sm} ${theme.spacing.lg};
+  font-size: ${theme.typography.fontSizes.sm};
+  font-weight: ${theme.typography.fontWeights.medium};
+  border-radius: ${theme.borderRadius.md};
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  background: ${({ active }) => (active ? '#007bff' : '#f8f9fa')};
-  color: ${({ active }) => (active ? '#fff' : '#333')};
-  border-radius: 8px;
-  transition: background 0.2s ease-in-out;
-  &:hover {
-    background: ${({ active }) => (active ? '#0056b3' : '#ddd')};
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.01em;
+
+  ${({ $active }) =>
+    $active
+      ? css`
+          background: ${theme.colors.lilacLight};
+          color: ${theme.colors.lilacDark};
+          border: 1px solid ${theme.colors.lilacDark};
+
+          ${ButtonIcon} {
+            color: ${theme.colors.lilacDark};
+          }
+
+          &:hover {
+            background: ${theme.colors.lilacLight};
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px ${theme.colors.lilac};
+          }
+        `
+      : css`
+          background: ${theme.colors.surface};
+          color: ${theme.colors.textSecondary};
+          border: 1px solid ${theme.colors.border};
+
+          ${ButtonIcon} {
+            color: ${theme.colors.textSecondary};
+          }
+
+          &:hover {
+            background: ${theme.colors.background};
+            color: ${theme.colors.text};
+            border-color: ${theme.colors.lilacDark};
+            transform: translateY(-1px);
+
+            ${ButtonIcon} {
+              color: ${theme.colors.lilacDark};
+            }
+          }
+        `}
+
+  &:active {
+    transform: translateY(0);
   }
 `

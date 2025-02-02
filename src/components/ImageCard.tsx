@@ -1,20 +1,25 @@
-import { memo } from 'react'
-import { usePetContext } from '../context/usePetContext'
-import LazyImage from './LazyImage'
-import { ImageCardProps } from '../utils/types'
-import { Card, Info } from '../styles/ImageCardStyles'
-
+import React, { memo } from "react"
+import { usePetContext } from "../context/usePetContext"
+import type { ImageCardProps } from "../utils/types"
+import { Card, ImageWrapper, StyledImage, Info, Title, Description } from "../styles/ImageCardStyles"
 
 const ImageCard: React.FC<ImageCardProps> = memo(({ pet }) => {
   const { selectedPets, toggleSelection } = usePetContext()
   const isSelected = selectedPets.has(pet.id)
 
   return (
-    <Card onClick={() => toggleSelection(pet.id)} $selected={isSelected}>
-      <LazyImage src={pet.url} alt={pet.title} />
+    <Card
+      $selected={isSelected}
+      onClick={() => toggleSelection(pet.id)}
+      whileHover={{ y: -5 }}
+      whileTap={{ scale: 0.98 }}
+    >
+      <ImageWrapper>
+        <StyledImage src={pet.url || "/placeholder.svg"} alt={pet.title} loading="lazy" />
+      </ImageWrapper>
       <Info>
-        <h3>{pet.title}</h3>
-        <p>{pet.description}</p>
+        <Title>{pet.title}</Title>
+        <Description>{pet.description}</Description>
       </Info>
     </Card>
   )

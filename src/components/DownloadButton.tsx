@@ -1,15 +1,16 @@
-import * as React from 'react'
-import styled from 'styled-components'
-import { usePetContext } from '../context/usePetContext'
-import { useFetchPets } from '../hooks/useFetchPets'
-import { downloadImage, downloadImagesAsZip } from '../utils/downloadUtils'
+import type * as React from "react"
+import { motion } from "framer-motion"
+import { Download } from "lucide-react"
+import { usePetContext } from "../context/usePetContext"
+import { useFetchPets } from "../hooks/useFetchPets"
+import { downloadImage, downloadImagesAsZip } from "../utils/downloadUtils"
+import { DownloadContainer, DownloadBtn, ButtonIcon, ButtonText } from "../styles/DownloadButtonStyles"
 
 const DownloadButton: React.FC = () => {
   const { selectedPets } = usePetContext()
   const { pets } = useFetchPets()
 
   const selectedImages = pets.filter((pet) => selectedPets.has(pet.id))
-
 
   const handleDownload = () => {
     if (selectedImages.length === 1) {
@@ -22,8 +23,11 @@ const DownloadButton: React.FC = () => {
 
   return (
     <DownloadContainer>
-      <DownloadBtn onClick={handleDownload}>
-        Download
+      <DownloadBtn as={motion.button} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleDownload}>
+        <ButtonIcon>
+          <Download size={20} />
+        </ButtonIcon>
+        <ButtonText>Download {selectedImages.length > 1 ? `(${selectedImages.length})` : ""}</ButtonText>
       </DownloadBtn>
     </DownloadContainer>
   )
@@ -31,23 +35,3 @@ const DownloadButton: React.FC = () => {
 
 export default DownloadButton
 
-const DownloadContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
-`
-
-const DownloadBtn = styled.button`
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out;
-  &:hover {
-    background: #0056b3;
-  }
-`

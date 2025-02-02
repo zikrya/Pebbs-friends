@@ -1,16 +1,24 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { motion } from 'framer-motion'
+import { theme } from '../styles/theme'
 
 const NavBar: React.FC = () => {
   return (
     <Nav>
       <NavList>
         <NavItem>
-          <StyledLink to="/">Home</StyledLink>
+          <StyledLink to="/">
+            Home
+            <LinkUnderline layoutId="underline" />
+          </StyledLink>
         </NavItem>
         <NavItem>
-          <StyledLink to="/about">About</StyledLink>
+          <StyledLink to="/about">
+            About
+            <LinkUnderline layoutId="underline" />
+          </StyledLink>
         </NavItem>
       </NavList>
     </Nav>
@@ -19,28 +27,44 @@ const NavBar: React.FC = () => {
 
 export default NavBar
 
-// Styled Components
 const Nav = styled.nav`
-  background: #007bff;
-  padding: 12px 20px;
+  background: ${theme.colors.surface};
+  padding: 16px 0;
   display: flex;
   justify-content: center;
+  box-shadow: ${theme.shadows.sm};
+  position: sticky;
+  top: 0;
+  z-index: 100;
 `
 
 const NavList = styled.ul`
   list-style: none;
   display: flex;
-  gap: 20px;
+  gap: 32px;
 `
 
 const NavItem = styled.li``
 
 const StyledLink = styled(Link)`
-  color: white;
+  color: ${theme.colors.text};
   text-decoration: none;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: 500;
+  transition: ${theme.transitions.default};
+  position: relative;
+  padding: 8px 0;
+
   &:hover {
-    text-decoration: underline;
+    color: ${theme.colors.lilacDark};
   }
+`
+
+const LinkUnderline = styled(motion.div)`
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: ${theme.colors.lilacDark};
 `
