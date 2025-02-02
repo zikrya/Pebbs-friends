@@ -1,8 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
-import { Heart } from 'lucide-react'
 import { theme } from '../styles/theme'
+import pebblesImg from '../assets/pebbles.jpg'
 
 const About: React.FC = () => {
   return (
@@ -15,16 +15,14 @@ const About: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <Title>The Story of Pebbs</Title>
-            <Subtitle>A tale of love, inspiration, and code</Subtitle>
           </HeaderContent>
         </Header>
 
         <StorySection>
           <ImageSection>
-            <ImagePlaceholder>
-              <Heart size={32} />
-              <ImageText>Add a photo of Pebbs here</ImageText>
-            </ImagePlaceholder>
+          <ImageSection>
+            <StyledImage src={pebblesImg} alt="Pebbles the dog" />
+          </ImageSection>
           </ImageSection>
 
           <Section>
@@ -176,30 +174,23 @@ const Quote = styled.blockquote`
 `
 
 const ImageSection = styled.div`
-  margin: 40px 0 60px;
+  display: flex;
+  justify-content: center;  // ✅ Centers the image horizontally
+  align-items: center;
+  width: 100%;
+  margin: 40px 0;
 `
 
-const ImagePlaceholder = styled.div`
+
+const StyledImage = styled.img`
   width: 100%;
-  height: 400px;
-  background: linear-gradient(135deg, rgba(124, 122, 235, 0.1), rgba(124, 122, 235, 0.05));
-  border-radius: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  color: ${theme.colors.lilacDark};
-  cursor: pointer;
-  transition: all 0.3s ease;
+  max-width: 500px;
+  height: auto;
+  border-radius: ${theme.borderRadius.lg};
+  box-shadow: ${theme.shadows.md};
+  transition: transform 0.3s ease;
 
   &:hover {
-    background: linear-gradient(135deg, rgba(124, 122, 235, 0.15), rgba(124, 122, 235, 0.08));
-    transform: translateY(-2px);
+    transform: scale(1.02);
   }
-`
-
-const ImageText = styled.span`
-  font-size: 16px;
-  color: ${theme.colors.textSecondary};
 `
