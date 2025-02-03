@@ -106,12 +106,6 @@ const Title = styled.h1`
   letter-spacing: -0.02em;
 `
 
-const Subtitle = styled.p`
-  font-size: 20px;
-  color: ${theme.colors.textSecondary};
-  margin: 0;
-`
-
 const StorySection = styled.div`
   padding: 40px 0 80px;
 `

@@ -37,7 +37,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ pets = [], loading }) => {
           transition={{ duration: 0.3 }}
         >
           {loading ? (
-            // ✅ Show 6 skeleton cards when loading
             Array.from({ length: 6 }).map((_, index) => (
               <motion.div key={index} layout>
                 <SkeletonCard />
@@ -47,7 +46,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ pets = [], loading }) => {
             pets.map((pet) =>
               view === "grid" ? (
                 <motion.div key={pet.id} layout>
-                  <ImageCard pet={pet} />
+                  <ImageCard pet={pet} view={view}/>
                 </motion.div>
               ) : (
                 <motion.div key={pet.id} layout>

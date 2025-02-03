@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import{ useState } from "react"
+import { AnimatePresence } from "framer-motion"
 import { Download } from "lucide-react"
 import { usePetContext } from "../context/usePetContext"
 import { useFetchPets } from "../hooks/useFetchPets"

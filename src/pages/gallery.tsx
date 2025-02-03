@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import styled from 'styled-components'
 import { useFetchPets } from '../hooks/useFetchPets'
 import { usePetFilters } from '../hooks/usePetFilter'
-import { usePetContext } from '../context/usePetContext'
 import ImageGallery from '../components/ImageGallery'
 import SearchBar from '../components/SearchBar'
 import SortButtons from '../components/SortButton'
@@ -14,7 +13,6 @@ import { theme } from '../styles/theme'
 
 function Gallery() {
   const { pets, loading, error } = useFetchPets()
-  const { selectedPets } = usePetContext()
   const { searchTerm, setSearchTerm, sortOrder, setSortOrder, filteredAndSortedPets } = usePetFilters(pets)
 
   return (

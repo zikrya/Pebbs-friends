@@ -1,4 +1,3 @@
-// theme.ts
 import { keyframes, css } from "styled-components"
 
 const fadeIn = keyframes`
@@ -13,21 +12,27 @@ const slideUp = keyframes`
 
 export const theme = {
   colors: {
-    // More sophisticated lilac palette with reduced opacity
-    lilac: "rgba(237, 235, 254, 0.4)",
-    lilacLight: "rgba(246, 245, 255, 0.6)",
-    lilacDark: "rgba(124, 122, 235, 0.9)",
+    lilac: "rgba(237, 235, 254, 1)",
+    lilacLight: "rgba(246, 245, 255, 0.8)",
+    lilacDark: "rgba(124, 122, 235, 1)",
     background: "#FAFBFF",
     surface: "#FFFFFF",
     text: "#1A1825",
     textSecondary: "#6B6B7B",
-    border: "rgba(124, 122, 235, 0.08)",
-    accent: "rgba(124, 122, 235, 0.85)",
+    border: "rgba(124, 122, 235, 0.1)",
+    accent: "#7C7AEB",
+  },
+  sizes: {
+    sm: "400px",
+    md: "600px",
+    lg: "800px",
+    xl: "1000px",
+    full: "100%",
   },
   shadows: {
-    sm: "0 2px 8px rgba(124, 122, 235, 0.03)",
-    md: "0 4px 16px rgba(124, 122, 235, 0.06)",
-    lg: "0 8px 32px rgba(124, 122, 235, 0.08)",
+    sm: "0 2px 6px rgba(124, 122, 235, 0.05)",
+    md: "0 4px 12px rgba(124, 122, 235, 0.08)",
+    lg: "0 8px 20px rgba(124, 122, 235, 0.1)",
   },
   gradients: {
     lilac: "linear-gradient(135deg, rgba(237, 235, 254, 0.4) 0%, rgba(124, 122, 235, 0.2) 100%)",
@@ -35,6 +40,7 @@ export const theme = {
   transitions: {
     default: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
     fast: "all 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+    hover: "all 0.2s ease-in-out",
   },
   borderRadius: {
     sm: "6px",

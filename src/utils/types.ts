@@ -14,6 +14,7 @@ export  type ImageCardProps = {
 
 export type ImageGalleryProps = {
     pets: Pet[]
+    loading?: boolean
   }
 
 export type LazyImageProps = {
