@@ -12,6 +12,7 @@ export const Card = styled(motion.div)<{ $selected: boolean }>`
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease-in-out;
   position: relative;
+  height: 360px; // Fixed height for consistency
 
   &::after {
     content: '';
@@ -35,7 +36,7 @@ export const Card = styled(motion.div)<{ $selected: boolean }>`
 
 export const ImageWrapper = styled.div`
   position: relative;
-  padding-top: 100%; // 1:1 Aspect ratio
+  height: 220px; // Fixed height for the image section
   overflow: hidden;
 `
 
@@ -56,17 +57,27 @@ export const StyledImage = styled.img`
 export const Info = styled.div`
   padding: 16px;
   background: ${theme.colors.surface};
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 `
 
 export const Title = styled.h3`
   font-size: 18px;
   font-weight: 600;
   color: ${theme.colors.text};
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 `
 
 export const Description = styled.p`
   font-size: 14px;
   color: ${theme.colors.textSecondary};
   line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
 `
