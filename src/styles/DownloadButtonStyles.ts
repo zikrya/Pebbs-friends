@@ -52,3 +52,11 @@ export const ButtonText = styled.span`
   font-weight: 600;
   letter-spacing: 0.5px;
 `
+export const ProgressBar = styled.div`
+  height: 5px;
+  width: 100%;
+  background: ${theme.colors.lilacDark};
+  transition: width 0.3s ease-in-out;
+  border-radius: 5px;
+  margin-top: 8px;
+`

@@ -1,24 +1,38 @@
-import React from "react"
+import React, { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Download } from 'lucide-react'
+import { Download } from "lucide-react"
 import { usePetContext } from "../context/usePetContext"
 import { useFetchPets } from "../hooks/useFetchPets"
 import { downloadImage, downloadImagesAsZip } from "../utils/downloadUtils"
-import { DownloadContainer, DownloadBtn, ButtonIcon, ButtonText } from "../styles/DownloadButtonStyles"
+import {
+  DownloadContainer,
+  DownloadBtn,
+  ButtonIcon,
+  ButtonText,
+  ProgressBar,
+} from "../styles/DownloadButtonStyles"
 
 const DownloadButton: React.FC = () => {
   const { selectedPets } = usePetContext()
   const { pets } = useFetchPets()
+  const [isDownloading, setIsDownloading] = useState(false)
+  const [progress, setProgress] = useState(0) // Track progress
 
   const selectedImages = pets.filter((pet) => selectedPets.has(pet.id))
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
+    setIsDownloading(true)
+    setProgress(0)
+
     if (selectedImages.length === 1) {
       const pet = selectedImages[0]
-      downloadImage(pet.url, pet.title)
+      await downloadImage(pet.url, pet.title)
     } else {
-      downloadImagesAsZip(selectedImages)
+      await downloadImagesAsZip(selectedImages, setProgress)
     }
+
+    setIsDownloading(false)
+    setProgress(0)
   }
 
   return (
@@ -34,14 +48,16 @@ const DownloadButton: React.FC = () => {
             onClick={handleDownload}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            disabled={isDownloading} // Prevent spam clicking
           >
             <ButtonIcon>
               <Download size={20} />
             </ButtonIcon>
             <ButtonText>
-              Download {selectedImages.length > 1 ? `(${selectedImages.length})` : ""}
+              {isDownloading ? `Downloading ${progress}%` : `Download (${selectedImages.length})`}
             </ButtonText>
           </DownloadBtn>
+          {isDownloading && <ProgressBar style={{ width: `${progress}%` }} />} {/* Show progress bar */}
         </DownloadContainer>
       )}
     </AnimatePresence>
