@@ -1,62 +1,81 @@
-import { motion } from "framer-motion"
-import styled from "styled-components"
-import { useFetchPets } from "../hooks/useFetchPets"
-import { usePetFilters } from "../hooks/usePetFilter"
-import { usePetContext } from "../context/usePetContext"
-import ImageGallery from "../components/ImageGallery"
-import SearchBar from "../components/SearchBar"
-import SortButtons from "../components/SortButton"
-import SelectionControls from "../components/SelectionControls"
-import DownloadButton from "../components/DownloadButton"
-import { theme } from "../styles/theme"
+import React from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import styled from 'styled-components'
+import { useFetchPets } from '../hooks/useFetchPets'
+import { usePetFilters } from '../hooks/usePetFilter'
+import { usePetContext } from '../context/usePetContext'
+import ImageGallery from '../components/ImageGallery'
+import SearchBar from '../components/SearchBar'
+import SortButtons from '../components/SortButton'
+import SelectionControls from '../components/SelectionControls'
+import DownloadButton from '../components/DownloadButton'
+import LoadingIndicator from '../components/Loading'
+import { theme } from '../styles/theme'
 
 function Gallery() {
   const { pets, loading, error } = useFetchPets()
   const { selectedPets } = usePetContext()
   const { searchTerm, setSearchTerm, sortOrder, setSortOrder, filteredAndSortedPets } = usePetFilters(pets)
 
-  if (loading) return <LoadingContainer>Loading...</LoadingContainer>
-  if (error) return <ErrorContainer>Error: {error}</ErrorContainer>
-
   return (
-    <Container>
-      <Header>
-        <Title
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
+    <AnimatePresence mode="wait">
+      {loading ? (
+        <LoadingIndicator key="loading" />
+      ) : (
+        <Container
+          key="content"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
-          Pebbs
-        </Title>
+          <Header>
+            <Title
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Pebbs
+            </Title>
 
-        <ControlsWrapper
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+            <ControlsWrapper
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
-          <ControlsBar>
-            <SortButtons sortOrder={sortOrder} setSortOrder={setSortOrder} />
-            <SelectionControls pets={filteredAndSortedPets} />
-          </ControlsBar>
-        </ControlsWrapper>
-      </Header>
+              <ControlsBar>
+                <SortButtons sortOrder={sortOrder} setSortOrder={setSortOrder} />
+                <SelectionControls pets={filteredAndSortedPets} />
+              </ControlsBar>
+            </ControlsWrapper>
+          </Header>
 
-      <Content>
-        <GalleryContainer>
-          <ImageGallery pets={filteredAndSortedPets} />
-        </GalleryContainer>
+          <Content>
+            {error ? (
+              <ErrorContainer>Error: {error}</ErrorContainer>
+            ) : (
+              <GalleryContainer
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                <ImageGallery pets={filteredAndSortedPets} />
+              </GalleryContainer>
+            )}
 
-        <DownloadButton />
-      </Content>
-    </Container>
+            <DownloadButton />
+          </Content>
+        </Container>
+      )}
+    </AnimatePresence>
   )
 }
 
 export default Gallery
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   background: linear-gradient(180deg, rgba(246, 245, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
   min-height: 100vh;
   display: flex;
@@ -64,6 +83,7 @@ const Container = styled.div`
   position: relative;
   overflow-x: hidden;
 `
+
 const Header = styled.header`
   padding: 40px 20px;
   position: relative;
@@ -110,8 +130,6 @@ const ControlsWrapper = styled(motion.div)`
   }
 `
 
-
-
 const ControlsBar = styled.div`
   display: flex;
   align-items: center;
@@ -135,31 +153,6 @@ const GalleryContainer = styled(motion.div)`
   display: grid;
   gap: 24px;
   margin-top: 20px;
-`
-
-const LoadingContainer = styled.div`
-  text-align: center;
-  font-size: ${theme.typography.fontSizes.md};
-  color: ${theme.colors.textSecondary};
-  margin-top: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: ${theme.spacing.md};
-
-  &::after {
-    content: '';
-    width: 24px;
-    height: 24px;
-    border: 2px solid ${theme.colors.lilacLight};
-    border-top-color: ${theme.colors.lilacDark};
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
 `
 
 const ErrorContainer = styled.div`

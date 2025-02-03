@@ -1,12 +1,12 @@
-import type React from "react"
-import { useState } from "react"
+import React, { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import ImageCard from "./ImageCard"
+import SkeletonCard from "./SkeletonCard"  // ✅ Import Skeleton Loader
 import type { ImageGalleryProps } from "../utils/types"
 import { List, Grid } from "lucide-react"
-import { GalleryContainer, Wrapper, Controls, ViewToggle, ListItem, ListImage, ListContent, ListTitle, ListDescription,  EmptyMessage } from "../styles/ImageGalleryStyles"
+import { GalleryContainer, Wrapper, Controls, ViewToggle, EmptyMessage } from "../styles/ImageGalleryStyles"
 
-const ImageGallery: React.FC<ImageGalleryProps> = ({ pets = [] }) => {
+const ImageGallery: React.FC<ImageGalleryProps> = ({ pets = [], loading }) => {
   const [view, setView] = useState<"grid" | "list">("grid")
 
   return (
@@ -36,20 +36,23 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ pets = [] }) => {
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
         >
-          {pets.length > 0 ? (
+          {loading ? (
+            // ✅ Show 6 skeleton cards when loading
+            Array.from({ length: 6 }).map((_, index) => (
+              <motion.div key={index} layout>
+                <SkeletonCard />
+              </motion.div>
+            ))
+          ) : pets.length > 0 ? (
             pets.map((pet) =>
               view === "grid" ? (
                 <motion.div key={pet.id} layout>
                   <ImageCard pet={pet} />
                 </motion.div>
               ) : (
-                <ListItem key={pet.id} layout>
-                  <ListImage src={pet.url} alt={pet.title} />
-                  <ListContent>
-                    <ListTitle>{pet.title}</ListTitle>
-                    <ListDescription>{pet.description}</ListDescription>
-                  </ListContent>
-                </ListItem>
+                <motion.div key={pet.id} layout>
+                  <ImageCard pet={pet} />
+                </motion.div>
               ),
             )
           ) : (
