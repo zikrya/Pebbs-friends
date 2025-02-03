@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import ImageCard from "./ImageCard"
 import SkeletonCard from "./SkeletonCard"  // ✅ Import Skeleton Loader
@@ -50,7 +50,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ pets = [], loading }) => {
                 </motion.div>
               ) : (
                 <motion.div key={pet.id} layout>
-                  <ImageCard pet={pet} />
+                  <ImageCard pet={pet} view={view} />
                 </motion.div>
               ),
             )
