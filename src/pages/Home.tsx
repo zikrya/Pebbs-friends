@@ -259,7 +259,7 @@ const ButtonContent = styled.div`
   padding: ${theme.spacing.lg} ${theme.spacing.xl};
   background: linear-gradient(135deg, ${theme.colors.lilacDark}, #8583E1);
   color: white;
-  border-radius: ${theme.borderRadius.full};
+  border-radius: ${theme.borderRadius.xl};
   font-size: ${theme.typography.fontSizes.lg};
   font-weight: ${theme.typography.fontWeights.semibold};
   transition: ${theme.transitions.default};
