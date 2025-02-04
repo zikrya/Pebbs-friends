@@ -25,7 +25,6 @@ const About: React.FC = () => {
               Our Story
             </HeroLabel>
             <HeroTitle>The Story of Pebbs</HeroTitle>
-            <HeroSubtitle>A journey from passion project to innovative pet tech platform</HeroSubtitle>
           </motion.div>
         </HeroContent>
         <HeroAccent />
