@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import ImageCard from "./ImageCard"
-import SkeletonCard from "./SkeletonCard"  // ✅ Import Skeleton Loader
+import SkeletonCard from "./SkeletonCard"
 import type { ImageGalleryProps } from "../utils/types"
 import { List, Grid } from "lucide-react"
 import { GalleryContainer, Wrapper, Controls, ViewToggle, EmptyMessage } from "../styles/ImageGalleryStyles"
@@ -45,7 +45,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ pets = [], loading }) => {
           ) : pets.length > 0 ? (
             pets.map((pet) =>
               view === "grid" ? (
-                <motion.div key={pet.id} layout>
+                <motion.div key={pet.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
                   <ImageCard pet={pet} view={view}/>
                 </motion.div>
               ) : (

@@ -1,4 +1,4 @@
-import React, { memo } from "react"
+import { memo } from "react"
 import { usePetContext } from "../context/usePetContext"
 import type { ImageCardProps } from "../utils/types"
 import { Card, ImageWrapper, StyledImage, Info, Title, Description } from "../styles/ImageCardStyles"
@@ -15,7 +15,7 @@ const ImageCard: React.FC<ImageCardProps> = memo(({ pet }) => {
       whileTap={{ scale: 0.98 }}
     >
       <ImageWrapper>
-        <StyledImage src={pet.url || "/placeholder.svg"} alt={pet.title} loading="lazy" />
+        <StyledImage src={pet.url || "/placeholder.svg"} alt={pet.title} />
       </ImageWrapper>
       <Info>
         <Title>{pet.title}</Title>
