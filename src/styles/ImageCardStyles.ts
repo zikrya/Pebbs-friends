@@ -36,7 +36,7 @@ export const Card = styled(motion.div)<{ $selected: boolean }>`
 
 export const ImageWrapper = styled.div`
   position: relative;
-  height: 220px; // Fixed height for the image section
+  height: 220px;
   overflow: hidden;
 `
 
