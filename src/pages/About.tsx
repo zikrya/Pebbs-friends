@@ -246,13 +246,6 @@ const HeroTitle = styled.h1`
   max-width: 800px;
 `
 
-const HeroSubtitle = styled.p`
-  font-size: 22px;
-  color: ${theme.colors.textSecondary};
-  max-width: 600px;
-  line-height: 1.6;
-`
-
 const Content = styled.div`
   max-width: 1200px;
   margin: 0 auto;
