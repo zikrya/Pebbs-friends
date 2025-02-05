@@ -5,6 +5,10 @@ import { theme } from "./theme"
 export const ControlsContainer = styled.div`
   display: flex;
   gap: ${theme.spacing.xs};
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `
 
 export const ButtonIcon = styled.span`
@@ -12,6 +16,10 @@ export const ButtonIcon = styled.span`
   align-items: center;
   margin-right: ${theme.spacing.xs};
   transition: ${theme.transitions.default};
+
+  @media (max-width: 768px) {
+    margin-right: 4px;
+  }
 `
 
 export const ControlButton = styled.button<{ $variant: "primary" | "secondary" }>`

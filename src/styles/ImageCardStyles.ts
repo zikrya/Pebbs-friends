@@ -36,18 +36,20 @@ export const Card = styled(motion.div)<{ $selected: boolean }>`
 
 export const ImageWrapper = styled.div`
   position: relative;
-  height: 220px;
+  width: 100%;
+  height: 240px; // Increased height
   overflow: hidden;
+  background-color: #f0f0f0;
+  border-radius: 16px 16px 0 0;
 `
 
 export const StyledImage = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease-in-out;
+  object-position: center center; // Reset to center
+  transition: all 0.3s ease-in-out;
+  will-change: transform;
 
   ${Card}:hover & {
     transform: scale(1.05);

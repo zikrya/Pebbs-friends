@@ -124,6 +124,7 @@ const ControlsWrapper = styled(motion.div)`
 
   @media (max-width: 768px) {
     gap: 16px;
+    padding: 0 12px;
   }
 `
 
@@ -140,7 +141,28 @@ const ControlsBar = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: stretch;
-    padding: 8px;
+    gap: 8px;
+    padding: 12px;
+
+    /* Make buttons container flex */
+    & > div {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+
+      /* Make all buttons equal width */
+      button {
+        flex: 1;
+        padding: 10px;
+        justify-content: center;
+        font-size: 13px;
+
+        /* Adjust icon spacing */
+        span {
+          margin-right: 4px;
+        }
+      }
+    }
   }
 `
 
