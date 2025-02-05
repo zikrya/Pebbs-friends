@@ -1,7 +1,6 @@
 import styled from "styled-components"
 import { theme } from "../styles/theme"
-import { motion} from "framer-motion"
-
+import { motion } from "framer-motion"
 export const Wrapper = styled.div`
   width: 100%;
   max-width: 1200px;
@@ -51,17 +50,18 @@ export const GalleryContainer = styled(motion.div)<{ $view: "grid" | "list" }>`
   align-items: ${({ $view }) => ($view === "list" ? "center" : "unset")};
 `
 
-export const ListItem = styled(motion.div)`
+export const ListItem = styled(motion.div)<{ $selected?: boolean }>`
   display: flex;
   align-items: center;
   gap: 24px;
   width: 100%;
-  max-width: 750px;
-  background: ${theme.colors.surface};
-  padding: 24px;
+  max-width: 900px;
+  background: ${({ $selected }) => ($selected ? theme.colors.lilacLight : theme.colors.surface)};
+  padding: 16px;
   border-radius: 16px;
-  box-shadow: ${theme.shadows.sm};
+  box-shadow: ${({ $selected }) => ($selected ? theme.shadows.md : theme.shadows.sm)};
   transition: all 0.2s ease-in-out;
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-2px);
@@ -71,6 +71,7 @@ export const ListItem = styled(motion.div)`
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
   }
 `
 
@@ -117,4 +118,3 @@ export const EmptyMessage = styled(motion.p)`
   box-shadow: ${theme.shadows.sm};
   width: 100%;
 `
-

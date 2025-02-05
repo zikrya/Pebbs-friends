@@ -1,62 +1,96 @@
-import * as React from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import styled from 'styled-components'
-import { motion } from 'framer-motion'
-import { theme } from '../styles/theme'
-import { Camera } from 'lucide-react'
+import * as React from "react"
+import { Link, useLocation } from "react-router-dom"
+import styled from "styled-components"
+import { motion, AnimatePresence } from "framer-motion"
+import { theme } from "../styles/theme"
+import { Camera } from "lucide-react"
 
 const NavBar: React.FC = () => {
   const location = useLocation()
+  const [isScrolled, setIsScrolled] = React.useState(false)
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
-    <Nav>
+    <Nav $isScrolled={isScrolled}>
       <NavContent>
         <LogoSection>
-          <Logo>
+          <LogoLink to="/">
             <LogoIcon>
-              <Camera size={24} />
+              <Camera size={20} />
             </LogoIcon>
             <LogoText>Pebbs</LogoText>
-          </Logo>
+          </LogoLink>
         </LogoSection>
 
         <NavList>
-          <NavItem $isActive={location.pathname === "/"}>
-            <StyledLink to="/">
-              Home
-              {location.pathname === "/" && (
-                <LinkUnderline layoutId="underline" />
-              )}
-            </StyledLink>
-          </NavItem>
-          <NavItem $isActive={location.pathname === "/about"}>
-            <StyledLink to="/about">
-              About
-              {location.pathname === "/about" && (
-                <LinkUnderline layoutId="underline" />
-              )}
-            </StyledLink>
-          </NavItem>
+          {[
+            { path: "/gallery", label: "Gallery" },
+            { path: "/about", label: "About" },
+          ].map((item) => (
+            <NavItem key={item.path}>
+              <NavLinkWrapper to={item.path} $isActive={location.pathname === item.path}>
+                {item.label}
+                <AnimatePresence>
+                  {location.pathname === item.path && (
+                    <ActiveBackground
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 1.05 }}
+                      transition={{ duration: 0.2 }}
+                      layoutId="nav-background"
+                    />
+                  )}
+                </AnimatePresence>
+                <LinkHighlight layoutId="nav-highlight" />
+              </NavLinkWrapper>
+            </NavItem>
+          ))}
         </NavList>
       </NavContent>
+      <NavBorder $isScrolled={isScrolled} />
     </Nav>
   )
 }
 
 export default NavBar
 
-const Nav = styled.nav`
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(10px);
-  padding: 16px 0;
-  position: sticky;
+const Nav = styled.nav<{ $isScrolled: boolean }>`
+  position: fixed;
   top: 0;
-  z-index: 100;
-  border-bottom: 1px solid rgba(124, 122, 235, 0.1);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: ${(props) => (props.$isScrolled ? "12px 0" : "20px 0")};
+  background: ${(props) => (props.$isScrolled ? "rgba(255, 255, 255, 0.9)" : "transparent")};
+  backdrop-filter: ${(props) => (props.$isScrolled ? "blur(10px)" : "none")};
+  transition: all 0.3s ease;
+`
+
+const NavBorder = styled.div<{ $isScrolled: boolean }>`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    ${(props) => (props.$isScrolled ? "rgba(124, 122, 235, 0.1)" : "transparent")},
+    transparent
+  );
+  opacity: ${(props) => (props.$isScrolled ? 1 : 0)};
+  transition: opacity 0.3s ease;
 `
 
 const NavContent = styled.div`
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
   display: flex;
@@ -65,85 +99,111 @@ const NavContent = styled.div`
 `
 
 const LogoSection = styled.div`
-  display: flex;
-  align-items: center;
+  position: relative;
+  z-index: 2;
 `
 
-const Logo = styled.div`
+const LogoLink = styled(Link)`
   display: flex;
   align-items: center;
   gap: 12px;
+  text-decoration: none;
+  position: relative;
+  padding: 8px;
+  margin: -8px;
+  border-radius: 99px;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 `
 
 const LogoIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, rgba(124, 122, 235, 0.1), rgba(124, 122, 235, 0.05));
-  border-radius: 12px;
+  width: 32px;
+  height: 32px;
   color: ${theme.colors.lilacDark};
-`
-
-const LogoText = styled.h1`
-  font-size: 24px;
-  font-weight: 600;
-  color: ${theme.colors.text};
-  letter-spacing: -0.5px;
-  margin: 0;
-`
-
-const NavList = styled.ul`
-  list-style: none;
-  display: flex;
-  gap: 32px;
-  margin: 0;
-  padding: 0;
-`
-
-const NavItem = styled.li<{ $isActive: boolean }>`
   position: relative;
 
   &::before {
     content: '';
     position: absolute;
-    top: -16px;
-    left: -12px;
-    right: -12px;
-    bottom: -16px;
-    background: ${props => props.$isActive ? 'rgba(124, 122, 235, 0.08)' : 'transparent'};
-    border-radius: 12px;
-    z-index: -1;
-    transition: background 0.3s ease;
+    inset: 0;
+    background: linear-gradient(135deg, ${theme.colors.lilacLight}20, ${theme.colors.lilacLight}05);
+    border-radius: 10px;
+    transform: rotate(-5deg);
+    transition: transform 0.2s ease;
   }
 
-  &:hover::before {
-    background: rgba(124, 122, 235, 0.05);
+  ${LogoLink}:hover &::before {
+    transform: rotate(0deg);
   }
 `
 
-const StyledLink = styled(Link)`
+const LogoText = styled.span`
+  font-size: 20px;
+  font-weight: 600;
   color: ${theme.colors.text};
-  text-decoration: none;
+  letter-spacing: -0.3px;
+`
+
+const NavList = styled.div`
+  display: flex;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+`
+
+const NavItem = styled.div`
+  position: relative;
+`
+
+const NavLinkWrapper = styled(Link)<{ $isActive: boolean }>`
+  position: relative;
+  display: block;
+  padding: 8px 16px;
   font-size: 15px;
   font-weight: 500;
-  transition: ${theme.transitions.default};
-  position: relative;
-  padding: 8px 0;
-  display: block;
+  color: ${(props) => (props.$isActive ? theme.colors.lilacDark : theme.colors.text)};
+  text-decoration: none;
+  transition: color 0.2s ease;
+  border-radius: 99px;
 
   &:hover {
     color: ${theme.colors.lilacDark};
   }
 `
 
-const LinkUnderline = styled(motion.div)`
+const ActiveBackground = styled(motion.div)`
   position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
+  inset: 0;
+  background: ${theme.colors.lilacLight}10;
+  border-radius: 99px;
+  z-index: -1;
+`
+
+const LinkHighlight = styled(motion.div)`
+  position: absolute;
+  bottom: 4px;
+  left: 16px;
+  right: 16px;
   height: 2px;
   background: ${theme.colors.lilacDark};
-  border-radius: 2px;
+  border-radius: 99px;
+  opacity: 0;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: all 0.2s ease;
+
+  ${NavLinkWrapper}:hover & {
+    opacity: 0.5;
+    transform: scaleX(1);
+  }
 `
