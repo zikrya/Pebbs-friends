@@ -23,6 +23,7 @@ A project named after a very special dog to showcase other super great annimals 
 - Framer Motion
 - Lucide Icons
 - pnpm
+- Fuse.js
 
 ## 🛠️ Installation
 
