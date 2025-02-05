@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react"
 import { motion, useAnimation, useInView } from "framer-motion"
 import styled from "styled-components"
 import { theme } from "../styles/theme"
-import { ArrowRight, PawPrint, Dog } from "lucide-react"
+import { ArrowRight, Dog } from "lucide-react"
 import { Link } from "react-router-dom"
 
 function Home() {
@@ -70,7 +70,6 @@ function Home() {
 
         <RightSection>
           <IllustrationWrapper>
-            <PawPrintTrail />
             <DogIconWrapper
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -99,21 +98,6 @@ const BackgroundAnimation = () => (
       />
     ))}
   </BackgroundWrapper>
-)
-
-const PawPrintTrail = () => (
-  <PawPrintWrapper>
-    {[...Array(4)].map((_, i) => (
-      <motion.div
-        key={i}
-        initial={{ opacity: 0, x: -20, y: -20 }}
-        animate={{ opacity: 0.6, x: 0, y: 0 }}
-        transition={{ delay: i * 0.2, duration: 0.5 }}
-      >
-        <PawPrint size={20 + i * 2} />
-      </motion.div>
-    ))}
-  </PawPrintWrapper>
 )
 
 const Container = styled.div`
@@ -315,18 +299,6 @@ const DogIconWrapper = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: center;
-`
-
-const PawPrintWrapper = styled.div`
-  position: absolute;
-  bottom: 30%;
-  left: 15%;
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing.sm};
-  color: ${theme.colors.lilacDark};
-  transform: rotate(-30deg);
-  z-index: 1;
 `
 
 const Blob = styled.div`

@@ -95,6 +95,7 @@ export const SearchInput = styled.input`
   }
 
   &:focus::placeholder {
-    color: ${theme.colors.textTertiary};
+    color: ${theme.colors.textSecondary};
+    opacity: 0.7;
   }
 `
