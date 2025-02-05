@@ -1,11 +1,29 @@
-import { memo } from "react"
+import { memo, useState, useEffect } from "react"
 import { usePetContext } from "../context/usePetContext"
 import type { ImageCardProps } from "../utils/types"
 import { Card, ImageWrapper, StyledImage, Info, Title, Description } from "../styles/ImageCardStyles"
 
 const ImageCard: React.FC<ImageCardProps> = memo(({ pet }) => {
   const { selectedPets, toggleSelection } = usePetContext()
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [imageSrc, setImageSrc] = useState("/placeholder.svg")
   const isSelected = selectedPets.has(pet.id)
+
+  useEffect(() => {
+    const img = new Image()
+    img.src = pet.url
+
+    const handleLoad = () => {
+      setImageSrc(pet.url)
+      setImageLoaded(true)
+    }
+
+    img.addEventListener('load', handleLoad)
+
+    return () => {
+      img.removeEventListener('load', handleLoad)
+    }
+  }, [pet.url])
 
   return (
     <Card
@@ -15,7 +33,16 @@ const ImageCard: React.FC<ImageCardProps> = memo(({ pet }) => {
       whileTap={{ scale: 0.98 }}
     >
       <ImageWrapper>
-        <StyledImage src={pet.url || "/placeholder.svg"} alt={pet.title} />
+        <StyledImage
+          src={imageSrc}
+          alt={pet.title}
+          loading="lazy"
+          style={{
+            opacity: imageLoaded ? 1 : 0.3,
+            transform: `scale(${imageLoaded ? 1 : 0.95})`,
+          }}
+          onLoad={() => setImageLoaded(true)}
+        />
       </ImageWrapper>
       <Info>
         <Title>{pet.title}</Title>
@@ -24,5 +51,7 @@ const ImageCard: React.FC<ImageCardProps> = memo(({ pet }) => {
     </Card>
   )
 })
+
+ImageCard.displayName = 'ImageCard'
 
 export default ImageCard

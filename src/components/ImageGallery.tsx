@@ -1,76 +1,31 @@
-import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import ImageCard from "./ImageCard"
-import { usePetContext } from "../context/usePetContext"
+import SkeletonCard from "./SkeletonCard"
 import type { ImageGalleryProps } from "../utils/types"
-import { List, Grid } from "lucide-react"
-import {
-  GalleryContainer,
-  Wrapper,
-  Controls,
-  ViewToggle,
-  ListItem,
-  ListImage,
-  ListContent,
-  ListTitle,
-  ListDescription,
-  EmptyMessage
-} from "../styles/ImageGalleryStyles"
+import { GalleryContainer, Wrapper, EmptyMessage } from "../styles/ImageGalleryStyles"
 
-const ImageGallery: React.FC<ImageGalleryProps> = ({ pets = [] }) => {
-  const [view, setView] = useState<"grid" | "list">("grid")
-  const { selectedPets, toggleSelection } = usePetContext()
-
+const ImageGallery: React.FC<ImageGalleryProps> = ({ pets = [], loading }) => {
   return (
     <Wrapper>
-      <Controls>
-        <ViewToggle onClick={() => setView(view === "grid" ? "list" : "grid")}>
-          {view === "grid" ? (
-            <>
-              <List size={16} />
-              <span>List</span>
-            </>
-          ) : (
-            <>
-              <Grid size={16} />
-              <span>Grid</span>
-            </>
-          )}
-        </ViewToggle>
-      </Controls>
-
       <AnimatePresence mode="wait">
         <GalleryContainer
-          key={view}
-          $view={view}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
         >
-          {pets.length > 0 ? (
-            pets.map((pet) =>
-              view === "grid" ? (
-                <motion.div key={pet.id} layout>
-                  <ImageCard pet={pet} />
-                </motion.div>
-              ) : (
-                <ListItem
-                  key={pet.id}
-                  layout
-                  onClick={() => toggleSelection(pet.id)}
-                  $selected={selectedPets.has(pet.id)}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <ListImage src={pet.url} alt={pet.title} />
-                  <ListContent>
-                    <ListTitle>{pet.title}</ListTitle>
-                    <ListDescription>{pet.description}</ListDescription>
-                  </ListContent>
-                </ListItem>
-              )
-            )
+          {loading ? (
+            Array.from({ length: 6 }).map((_, index) => (
+              <motion.div key={index} layout>
+                <SkeletonCard />
+              </motion.div>
+            ))
+          ) : pets.length > 0 ? (
+            pets.map((pet) => (
+              <motion.div key={pet.id} layout>
+                <ImageCard pet={pet} />
+              </motion.div>
+            ))
           ) : (
             <EmptyMessage
               initial={{ opacity: 0, scale: 0.9 }}
