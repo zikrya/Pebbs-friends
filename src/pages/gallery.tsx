@@ -58,7 +58,7 @@ function Gallery() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
               >
-                <ImageGallery pets={filteredAndSortedPets} />
+                <ImageGallery pets={filteredAndSortedPets} loading={loading} />
               </GalleryContainer>
             )}
 
