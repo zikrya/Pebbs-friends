@@ -67,7 +67,7 @@ pnpm preview
 
 ## 🚀 Deployment
 
-This project is deployed on Vercel. The production version can be found at: [[https://your-pebbs-url.vercel.app](https://pebbs-friends.vercel.app/)]
+This project is deployed on Vercel. The production version can be found at: [[https://your-pebbs-url.vercel.app](Pebbs-friends)]
 
 To deploy your own version:
 
@@ -104,4 +104,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Made with ♥️ by [Your Name](https://github.com/zikrya)
+Made with ♥️ by [Zikrya](https://github.com/zikrya)
