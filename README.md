@@ -1,50 +1,107 @@
-# React + TypeScript + Vite
+# Pebbs - Pet Memory Gallery
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A project named after a very special dog to showcase other super great annimals with fun personalities.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌟 Features
 
-## Expanding the ESLint configuration
+- 📸 Beautiful image gallery with smooth animations
+- 🔍 Real-time search functionality
+- ⚡ Fast and responsive design
+- 🎨 Modern UI with custom animations
+- ↕️ Sort functionality (A-Z, Z-A)
+- 📱 Mobile and tablet responsive
+- 🌓 Smooth loading states with skeleton UI
+- ✨ Interactive UI elements with hover effects
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🚀 Tech Stack
 
-- Configure the top-level `parserOptions` property like this:
+- React
+- TypeScript
+- Vite
+- Styled Components
+- Framer Motion
+- Lucide Icons
+- pnpm
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 🛠️ Installation
+
+1. Ensure you have Node.js LTS version installed:
+```bash
+nvm use --lts
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+2. Install pnpm if you haven't already:
+```bash
+npm install -g pnpm
 ```
+
+3. Clone the repository:
+```bash
+git clone https://github.com/yourusername/pebbs.git
+cd pebbs
+```
+
+4. Install dependencies:
+```bash
+pnpm install
+```
+
+5. Start the development server:
+```bash
+pnpm dev
+```
+
+The app will be available at `http://localhost:5173`
+
+## 🏗️ Building for Production
+
+```bash
+pnpm build
+```
+
+To preview the production build:
+```bash
+pnpm preview
+```
+
+## 🚀 Deployment
+
+This project is deployed on Vercel. The production version can be found at: [[https://your-pebbs-url.vercel.app](https://pebbs-friends.vercel.app/)]
+
+To deploy your own version:
+
+1. Fork this repository
+2. Create a new project on Vercel
+3. Connect your forked repository
+4. Deploy!
+
+## 📝 Environment Variables
+
+No environment variables are required to run this project.
+
+## 🧪 Testing
+
+```bash
+pnpm test
+```
+
+
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Design inspiration from modern web interfaces
+- Built with love in memory of Pebbs
+
+## 🔗 Links
+
+- [Repository](https://github.com/zikrya/Pebbs-friends)
+- [Deployment] (https://pebbs-friends.vercel.app/)
+
+---
+
+Made with ♥️ by [Your Name](https://github.com/zikrya)
