@@ -17,7 +17,7 @@ export const useFetchPets = () => {
     const parsedData = cachedData ? JSON.parse(cachedData) : null
 
     if (parsedData && Date.now() - parsedData.timestamp < CACHE_EXPIRY) {
-      console.log('✅ Loaded pets from cache')
+      console.log('Loaded pets from cache')
       setPets(parsedData.pets)
       setLoading(false)
       return

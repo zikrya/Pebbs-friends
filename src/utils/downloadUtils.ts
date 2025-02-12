@@ -29,7 +29,7 @@ export const downloadImagesAsZip = async (
       zip.file(`${image.title}.jpg`, blob)
 
       completed++
-      setProgress(Math.round((completed / images.length) * 100)) // ✅ Update progress bar
+      setProgress(Math.round((completed / images.length) * 100))
     } catch (error) {
       console.error(`Error downloading ${image.title}:`, error)
     }

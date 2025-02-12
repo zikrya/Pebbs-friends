@@ -6,7 +6,7 @@ import { Card, ImageWrapper, StyledImage, Info, Title, Description } from "../st
 const ImageCard: React.FC<ImageCardProps> = memo(({ pet }) => {
   const { selectedPets, toggleSelection } = usePetContext()
   const [imageLoaded, setImageLoaded] = useState(false)
-  const [imageSrc, setImageSrc] = useState("/placeholder.svg")
+  const [imageSrc, setImageSrc] = useState("data:image/gif;base64,R0lGODlhAQABAAAAACw=")
   const isSelected = selectedPets.has(pet.id)
 
   useEffect(() => {
@@ -40,6 +40,7 @@ const ImageCard: React.FC<ImageCardProps> = memo(({ pet }) => {
           style={{
             opacity: imageLoaded ? 1 : 0.3,
             transform: `scale(${imageLoaded ? 1 : 0.95})`,
+            backgroundColor: !imageLoaded ? "#f0f0f0" : "transparent"
           }}
           onLoad={() => setImageLoaded(true)}
         />

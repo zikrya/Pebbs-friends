@@ -16,7 +16,7 @@ const DownloadButton: React.FC = () => {
   const { selectedPets } = usePetContext()
   const { pets } = useFetchPets()
   const [isDownloading, setIsDownloading] = useState(false)
-  const [progress, setProgress] = useState(0) // Track progress
+  const [progress, setProgress] = useState(0)
 
   const selectedImages = pets.filter((pet) => selectedPets.has(pet.id))
 
@@ -48,7 +48,7 @@ const DownloadButton: React.FC = () => {
             onClick={handleDownload}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            disabled={isDownloading} // Prevent spam clicking
+            disabled={isDownloading}
           >
             <ButtonIcon>
               <Download size={20} />
@@ -57,7 +57,7 @@ const DownloadButton: React.FC = () => {
               {isDownloading ? `Downloading ${progress}%` : `Download (${selectedImages.length})`}
             </ButtonText>
           </DownloadBtn>
-          {isDownloading && <ProgressBar style={{ width: `${progress}%` }} />} {/* Show progress bar */}
+          {isDownloading && <ProgressBar style={{ width: `${progress}%` }} />}
         </DownloadContainer>
       )}
     </AnimatePresence>
